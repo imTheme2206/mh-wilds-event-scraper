@@ -1,6 +1,6 @@
 {
   "name": "mh-wilds-event-scraper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A scraper for Monster Hunter Wilds event quests",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,7 +26,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/mh-wilds-event-scraper.git"
+    "url": "git+https://github.com/imtheme2206/mh-wilds-event-scraper.git"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",
