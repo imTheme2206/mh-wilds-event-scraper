@@ -24,8 +24,8 @@ export type EventQuestItem = {
 } & MonsterDetails;
 
 export type MHWIldsEventResponse = {
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   eventQuests: EventQuestItem[];
   freeChallengeQuests: EventQuestItem[];
 };

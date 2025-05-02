@@ -19,8 +19,8 @@ export const getMHWildsEvents = async (rawHTML: string) => {
     const { startDate: startStr, endDate: endStr } =
       splitJapaneseDateRangeFormat(dateRange);
 
-    const startDate = parseDate(startStr);
-    const endDate = parseDate(endStr);
+    const startDate = parseDate(startStr) || new Date();
+    const endDate = parseDate(endStr) || new Date();
 
     const tableAreas = document.querySelectorAll(
       `.tableArea#tab${index} table`
