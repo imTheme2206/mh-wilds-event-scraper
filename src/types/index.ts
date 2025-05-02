@@ -10,6 +10,7 @@ export type MonsterDetails = {
   targetMonster: string;
   variant: 'normal' | 'tempered' | 'arch-tempered';
   questType: 'hunt' | 'slay' | 'capture';
+  amount: number;
 };
 
 export type EventQuestItem = {
@@ -21,3 +22,10 @@ export type EventQuestItem = {
   endAt: string;
   locales: string;
 } & MonsterDetails;
+
+export type MHWIldsEventResponse = {
+  startDate: string;
+  endDate: string;
+  eventQuests: EventQuestItem[];
+  freeChallengeQuests: EventQuestItem[];
+};

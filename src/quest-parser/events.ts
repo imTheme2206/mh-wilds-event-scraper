@@ -2,10 +2,7 @@ import { JSDOM } from 'jsdom';
 import { EventQuestItem, QuestOverview } from '../types';
 import { parseQuestTargetDetail } from '../quest-parser/target-parser';
 import { parseEventDetail } from '../quest-parser/quest-detail-parser';
-
-const isDefined = (value: any): boolean => {
-  return value !== undefined && value !== null;
-};
+import { isDefined, parseDate, splitJapaneseDateRangeFormat } from '../uitls';
 
 export const getMHWildsEvents = async (rawHTML: string) => {
   const document = new JSDOM(rawHTML).window.document;
@@ -19,13 +16,8 @@ export const getMHWildsEvents = async (rawHTML: string) => {
   ).map((element, index) => {
     const dateRange = element.textContent?.trim() || '';
 
-    const cleaned = dateRange.split('\n')[0].trim();
-    const [startStr, endStr] = cleaned.split(' 〜 ').map((date) => date.trim());
-
-    const parseDate = (str: string) => {
-      const [month, day, year] = str.split('.').map(Number);
-      return new Date(year, month - 1, day); // month is 0-indexed
-    };
+    const { startDate: startStr, endDate: endStr } =
+      splitJapaneseDateRangeFormat(dateRange);
 
     const startDate = parseDate(startStr);
     const endDate = parseDate(endStr);
@@ -33,19 +25,18 @@ export const getMHWildsEvents = async (rawHTML: string) => {
     const tableAreas = document.querySelectorAll(
       `.tableArea#tab${index} table`
     );
-    const tableArea =
-      tableAreas.length > 1
-        ? tableAreas[0].outerHTML
-        : Array.from(tableAreas)
-            .map((table) => table.outerHTML)
-            .join(' ');
 
-    const events = getEventQuests(tableArea);
+    const tableEventArea = tableAreas[0]?.outerHTML;
+    const tableFreeChallengeArea = tableAreas[1]?.outerHTML;
+
+    const eventQuests = getEventQuests(tableEventArea);
+    const freeChallengeQuests = getEventQuests(tableFreeChallengeArea || '');
 
     return {
       startDate,
       endDate,
-      events,
+      eventQuests,
+      freeChallengeQuests,
     };
   });
 
@@ -102,26 +93,23 @@ export const getEventQuests: (rawHTML: string) => EventQuestItem[] = (
         : null;
 
     if (!overview) {
-      return null;
+      return {};
     }
 
-    const { questType, targetMonster, variant } =
-      parseQuestTargetDetail(overview);
-    const { startAt, endAt, requiredRank } = parseEventDetail(overview);
+    const targetDetail = parseQuestTargetDetail(overview);
+    const eventDetail = parseEventDetail(overview);
 
     return {
       img,
       difficulty,
       questName: quest,
-      questType,
-      targetMonster,
-      variant,
-      startAt,
-      endAt,
-      requiredRank,
       locales: overview.locales || '',
+      ...targetDetail,
+      ...eventDetail,
     };
   });
 
-  return eventQuests.filter((quest): quest is EventQuestItem => quest !== null);
+  return eventQuests.filter(
+    (quest): quest is EventQuestItem => Object.keys(quest).length > 0
+  );
 };

@@ -22,9 +22,13 @@ export const parseQuestTargetDetail: (q: QuestOverview) => MonsterDetails = (
     questCompleteCondition.toLowerCase().includes(monster.toLowerCase())
   );
 
+  const amount = questCompleteCondition.match(/(\d+)\s*([a-zA-Z]+)/);
+  const amountValue = amount ? parseInt(amount[1], 10) : 1;
+
   return {
     targetMonster: targetMonster || '',
     variant: variant || 'normal',
     questType: questType,
+    amount: amountValue,
   };
 };
