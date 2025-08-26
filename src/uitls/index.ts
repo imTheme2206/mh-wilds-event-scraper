@@ -1,8 +1,12 @@
-export const parseDate = (str: string) => {
-  const [dateStr, timeStr] = str.split(' ');
+export const parseDate = (str?: string) => {
+  if (!str) {
+    return undefined;
+  }
+
+  const [dateStr, timeStr] = str?.split(' ');
 
   const [hour, minute] = timeStr?.split(':').map(Number) || [0, 0];
-  const [day, month, year] = dateStr.split('.').map(Number);
+  const [day, month, year] = dateStr?.split('.').map(Number) || [0, 0, 0];
 
   if (isNaN(day) || isNaN(month) || isNaN(year)) {
     console.error('Invalid date format:', str);
