@@ -21,11 +21,20 @@ export type EventQuestItem = {
   startAt: string;
   endAt: string;
   locales: string;
+  isNewEvent: boolean;
+  description: string;
 } & MonsterDetails;
 
-export type MHWIldsEventResponse = {
+export type LimitedEventQuestItem = {
   startDate: Date;
   endDate: Date;
   eventQuests: EventQuestItem[];
   freeChallengeQuests: EventQuestItem[];
 };
+
+export type MHWIldsEventResponse = {
+  limitedEventQuests: LimitedEventQuestItem[];
+  permanentQuests: PermanentQuestItem;
+};
+
+export type PermanentQuestItem = EventQuestItem[];

@@ -29,4 +29,8 @@ export const MONSTER_LIST = [
   'Xu Wu',
   'Yian Kut-Ku',
   'Zoh Shia',
+
+  // Added for Title Update 2
+  'Lagiacrus',
+  'Seregios',
 ] as const;

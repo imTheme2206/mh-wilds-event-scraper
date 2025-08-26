@@ -1,14 +1,19 @@
 import { JSDOM } from 'jsdom';
-import { EventQuestItem, QuestOverview } from '../types';
+import { EventQuestItem, MHWIldsEventResponse, QuestOverview } from '../types';
 import { parseQuestTargetDetail } from '../quest-parser/target-parser';
 import { parseEventDetail } from '../quest-parser/quest-detail-parser';
 import { isDefined, parseDate, splitJapaneseDateRangeFormat } from '../uitls';
 
-export const getMHWildsEvents = async (rawHTML: string) => {
+export const getMHWildsEvents = async (
+  rawHTML: string
+): Promise<MHWIldsEventResponse> => {
   const document = new JSDOM(rawHTML).window.document;
   if (!document) {
     console.error('Failed to parse HTML document');
-    return [];
+    return {
+      limitedEventQuests: [],
+      permanentQuests: [],
+    };
   }
 
   const eventDateRangeTab = Array.from(
@@ -40,7 +45,15 @@ export const getMHWildsEvents = async (rawHTML: string) => {
     };
   });
 
-  return eventDateRangeTab;
+  const permanentQuestTableArea = document.querySelector(
+    '#schedule.permanent_box table'
+  )?.outerHTML;
+
+  const permanentQuests = getEventQuests(permanentQuestTableArea || '');
+  return {
+    limitedEventQuests: eventDateRangeTab,
+    permanentQuests,
+  };
 };
 
 export const getEventQuests: (rawHTML: string) => EventQuestItem[] = (
@@ -67,6 +80,12 @@ export const getEventQuests: (rawHTML: string) => EventQuestItem[] = (
     const difficulty = parseInt(difficultyCell?.textContent?.trim() || '0');
     const quest =
       questCell?.querySelector('.title > span')?.textContent?.trim() || '';
+    const isNewEvent =
+      questCell
+        ?.querySelector('.title > div > span')
+        ?.classList.contains('label_new') || false;
+    const description =
+      questCell?.querySelector('.txt')?.textContent?.trim() || '';
 
     const liList = overviewCell?.querySelectorAll('li');
     const overview =
@@ -106,6 +125,8 @@ export const getEventQuests: (rawHTML: string) => EventQuestItem[] = (
       locales: overview.locales || '',
       ...targetDetail,
       ...eventDetail,
+      isNewEvent,
+      description,
     };
   });
 
