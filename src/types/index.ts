@@ -8,8 +8,8 @@ export type QuestOverview = {
 
 export type MonsterDetails = {
   targetMonster: string;
-  variant: 'normal' | 'tempered' | 'arch-tempered';
-  questType: 'hunt' | 'slay' | 'capture';
+  variant: "normal" | "tempered" | "arch-tempered" | "frenzied";
+  questType: "hunt" | "slay" | "capture";
   amount: number;
 };
 
@@ -25,6 +25,20 @@ export type EventQuestItem = {
   description: string;
 } & MonsterDetails;
 
+export type EventQuestItemV2 = {
+  img: string;
+  questName: string;
+  difficulty: number;
+  requiredRank: number;
+  startAt: string;
+  endAt: string;
+  locales: string;
+  isNewEvent: boolean;
+  description: string;
+  targetDetails: MonsterDetails[];
+  isPermanent: boolean;
+};
+
 export type LimitedEventQuestItem = {
   startDate: Date;
   endDate: Date;
@@ -35,6 +49,12 @@ export type LimitedEventQuestItem = {
 export type MHWIldsEventResponse = {
   limitedEventQuests: LimitedEventQuestItem[];
   permanentQuests: PermanentQuestItem;
+};
+
+export type MHWIldsEventResponseV2 = {
+  // startDate: Date;
+  // endDate: Date;
+  eventQuests: EventQuestItemV2[];
 };
 
 export type PermanentQuestItem = EventQuestItem[];
