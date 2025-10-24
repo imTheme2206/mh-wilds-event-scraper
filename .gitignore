@@ -1,6 +1,7 @@
 node_modules/
 dist/
 coverage/
+example-results/
 .env
 *.log
 .DS_Store
