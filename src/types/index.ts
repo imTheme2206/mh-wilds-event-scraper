@@ -23,9 +23,8 @@ export type EventQuestItem = {
   locales: string
   isNewEvent: boolean
   description: string
-  targetDetails: MonsterDetails[]
   isPermanent: boolean
-}
+} & MonsterDetails
 
 export type MHWIldsEventResponse = {
   // startDate: Date;
