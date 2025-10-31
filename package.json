@@ -1,6 +1,6 @@
 {
   "name": "mh-wilds-event-scraper",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A scraper for Monster Hunter Wilds event quests",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

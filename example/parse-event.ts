@@ -1,24 +1,24 @@
-import { existsSync, mkdirSync, writeFileSync } from "fs";
-import { parseMHWildsEventsV2 } from "../src/lib/parser";
-import { join } from "path";
+import { existsSync, mkdirSync, writeFileSync } from 'fs'
+import { parseMHWildsEvents } from '../src/lib/parser'
+import { join } from 'path'
 
 async function exampleV2() {
-  const events = await parseMHWildsEventsV2(
-    "https://info.monsterhunter.com/wilds/event-quest/en-us/schedule?utc=7",
-  );
-  const json = JSON.stringify(events, null, 2);
-  const dirPath = join(__dirname, "example-results");
+  const events = await parseMHWildsEvents(
+    'https://info.monsterhunter.com/wilds/event-quest/en-us/schedule?utc=7'
+  )
+  const json = JSON.stringify(events, null, 2)
+  const dirPath = join(__dirname, 'example-results')
 
   if (!existsSync(dirPath)) {
-    mkdirSync(dirPath, { recursive: true });
+    mkdirSync(dirPath, { recursive: true })
   }
 
   writeFileSync(`${dirPath}/test-data.json`, json, {
-    encoding: "utf-8",
-  });
+    encoding: 'utf-8',
+  })
 }
 
-exampleV2();
+exampleV2()
 
 /*
     This function will fetch the event quests from the given URL and log them to the console.

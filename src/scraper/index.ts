@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { JSDOM } from 'jsdom';
+import axios from 'axios'
+import { JSDOM } from 'jsdom'
 
 export default async function scrape(url: string): Promise<any> {
   try {
@@ -10,16 +10,15 @@ export default async function scrape(url: string): Promise<any> {
           '(KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36',
         'Accept-Language': 'en-US,en;q=0.9',
         Referer: 'https://info.monsterhunter.com/',
-        Accept:
-          'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Cache-Control': 'no-cache',
       },
-    });
-    const dom = new JSDOM(response.data);
+    })
+    const dom = new JSDOM(response.data)
 
-    return dom.window.document.documentElement.innerHTML;
+    return dom.window.document.documentElement.innerHTML
   } catch (error) {
-    console.error('Error scraping the URL:', error);
-    return [];
+    console.error('Error scraping the URL:', error)
+    return []
   }
 }
