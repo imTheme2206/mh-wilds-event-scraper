@@ -1,12 +1,12 @@
-import { MHWIldsEventResponse, MHWIldsEventResponseV2 } from 'types'
+import { MHWIldsEventResponse } from '../types'
 import scrape from '../scraper'
-import { getMHWildsEventsV2 } from 'quest-parser/events'
+import { getMHWildsEvents } from '../quest-parser/events'
 
-export const parseMHWildsEvents: (
+export const parseMHWildsEvents: (url: string) => Promise<MHWIldsEventResponse> = async (
   url: string
-) => Promise<MHWIldsEventResponseV2> = async (url: string) => {
+) => {
   const data = await scrape(url)
-  const events = await getMHWildsEventsV2(data)
+  const events = await getMHWildsEvents(data)
 
   return events
 }

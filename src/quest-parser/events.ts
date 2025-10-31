@@ -1,12 +1,12 @@
 import { JSDOM } from 'jsdom'
-import { EventQuestItemV2, MHWIldsEventResponseV2, QuestOverview } from 'types'
-import { isDefined, parseDate, splitJapaneseDateRangeFormat } from 'uitls'
+import { EventQuestItem, MHWIldsEventResponse, QuestOverview } from '../types'
+import { isDefined, parseDate, splitJapaneseDateRangeFormat } from '../uitls'
 import { parseQuestTargetDetail } from './target-parser'
 import { parseEventDetail } from './quest-detail-parser'
 
-export const getMHWildsEventsV2 = async (
+export const getMHWildsEvents = async (
   rawHTML: string
-): Promise<MHWIldsEventResponseV2> => {
+): Promise<MHWIldsEventResponse> => {
   const document = new JSDOM(rawHTML).window.document
   if (!document) {
     console.error('Failed to parse HTML document')
@@ -49,7 +49,7 @@ export const getMHWildsEventsV2 = async (
 export const getEventQuests: (
   rawHTML: string,
   isPermanent: boolean
-) => EventQuestItemV2[] = (rawHTML, isPermanent) => {
+) => EventQuestItem[] = (rawHTML, isPermanent) => {
   const document = new JSDOM(rawHTML).window.document
 
   if (!document) {
@@ -116,6 +116,6 @@ export const getEventQuests: (
   })
 
   return eventQuests.filter(
-    (quest): quest is EventQuestItemV2 => Object.keys(quest).length > 0
+    (quest): quest is EventQuestItem => Object.keys(quest).length > 0
   )
 }

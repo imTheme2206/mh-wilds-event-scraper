@@ -1,5 +1,5 @@
-import { MONSTER_LIST } from 'constants/monster-list'
-import { MonsterDetails, QuestOverview } from 'types'
+import { MONSTER_LIST } from '../constants/monster-list'
+import { MonsterDetails, QuestOverview } from '../types'
 
 export const parseQuestTargetDetail: (q: QuestOverview) => MonsterDetails = (q) => {
   const questCompleteCondition = q.completionConditions

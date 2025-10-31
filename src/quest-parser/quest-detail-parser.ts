@@ -1,5 +1,5 @@
-import { QuestOverview } from 'types'
-import { parseDate } from 'uitls'
+import { QuestOverview } from '../types'
+import { parseDate } from '../uitls'
 
 export const parseEventDetail = (q: QuestOverview) => {
   return {
